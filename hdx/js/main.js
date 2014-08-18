@@ -224,7 +224,7 @@ var init = function() {
 							tooltip.classed('hidden', true);
 						})
 						.transition()
-						.duration(1000)
+						.duration(500)
 						.attr({
 							fill: function() {
 								var x = v[year];
@@ -268,8 +268,7 @@ var init = function() {
 					year: v
 				})
 				.on('click', function() {
-					d3.selectAll('.yearDot').attr('class', 'yearDot');
-					d3.select(this).attr('class', 'yearDot selected');
+					// d3.select(this).attr('class', 'yearDot selected');
 					// redraw node
 					// console.log(currentYear, d3.select(this).attr('year'));
 					redraw(d3.select(this).attr('year'));
@@ -289,13 +288,17 @@ var init = function() {
 		t.attr('transform', 'translate(' + (width - t_width - 50) + ', ' + (height - 30) + ')');
 	};
 
-	var modeEl = document.getElementById('vizMode');
-
 	var redraw = function(year) {
+		console.log('drawing', year);
 		// remove old el
 		// remove
 		d3.selectAll('.node').remove();
 		d3.select('#legend').remove();
+		d3.selectAll('.yearDot').attr('class', 'yearDot');
+		// selected yearDot
+		d3.select('[year="' + year + '"]').attr({
+			class: 'yearDot selected'
+		});
 
 		var allCountries = d3.selectAll('.country');
 		// return heat to default color and unbind event
@@ -314,11 +317,51 @@ var init = function() {
 			drawHeat(year);
 		}
 	};
+	var modeEl = document.getElementById('vizMode'),
+		autoplayBtn = document.getElementById('autoplay');
 
+	var Runtime = function(delay, array) {
+		this.delay = delay;
+		this.array = array;
+		this.counter = 0;
+		this.interval = null;
+		var i = 0;
+		// console.log(this.counter);
+		this.start = function() {
+			// var i = 0;
+			interval = setInterval(function() {
+				if(i == array.length-1) {
+					i = 0;
+				} else {
+					i++;
+				}
+				console.log(i);
+				redraw(array[i]);
+			}, delay);
+			return this;
+		};
+		this.stop = function() {
+			clearInterval(interval);
+			return this;
+		};
+		return this;
+	};
+	var loop = new Runtime(2000, key_year);
 	// listener for select option
 	modeEl.addEventListener('change', function() {
 		console.log(modeEl.value);
 		redraw(currentYear);
+	});
+	// listener for autoplay btn
+	autoplayBtn.addEventListener('click', function() {
+		if(this.innerText === 'Autoplay') {
+			// play it
+			loop.start();
+			this.innerText = 'Stop';
+		} else {
+			loop.stop();
+			this.innerText = 'Autoplay';
+		}
 	});
 
 	topo = topojson.feature(topo, topo.objects.countries).features;
@@ -341,4 +384,4 @@ function map_range(value, low1, high1, low2, high2) {
 
 String.prototype.capitalize = function() {
 	return this.charAt(0).toUpperCase() + this.slice(1);
-}
+};
