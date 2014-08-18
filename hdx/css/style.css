@@ -23,6 +23,10 @@ svg#mapContainer {
 	padding: 20px;
 }
 
+#legend {
+	font-size: 0.75em;
+}
+
 #tooltip {
 	position: absolute;
 	border-radius: 5px;
@@ -86,7 +90,7 @@ svg#mapContainer {
 }
 
 .year {
-	font-size: 0.5em;
+	font-size: 0.6em;
 }
 
 .yearDot {

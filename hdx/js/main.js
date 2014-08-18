@@ -152,6 +152,52 @@ var init = function() {
 	};
 
 	var drawHeat = function(year) {
+		// draw legend
+		var gradient = svg.append("svg:defs")
+			.append("svg:linearGradient")
+			.attr("id", "gradient")
+			.attr("x1", "0%")
+			.attr("y1", "0%")
+			.attr("x2", "100%")
+			.attr("y2", "0%")
+			.attr("spreadMethod", "pad");
+
+		gradient.append("svg:stop")
+			.attr("offset", "0%")
+			.attr("stop-color", d3.hsl(80, 0.9, 0.50))
+			.attr("stop-opacity", 1);
+
+		gradient.append("svg:stop")
+			.attr("offset", "100%")
+			.attr("stop-color", d3.hsl(0, 0.9, 0.50))
+			.attr("stop-opacity", 1);
+
+		var x = g.append('g').attr('id', 'legend');
+		x.append('rect')
+			.attr({
+				class: 'heatLegend',
+				x: 0,
+				y: 0,
+				width: 200,
+				height: 10
+			})
+			.style('fill', 'url(#gradient)');
+		x.append('text')
+			.attr({
+				x: -5,
+				y: -5
+			})
+			.text('0');
+		x.append('text')
+			.attr({
+				x: 190,
+				y: -5
+			})
+			.text('326');
+		x.attr({
+			transform: 'translate(' + (width - 200 - 50) + ', ' + (height - 90) + ')'
+		});
+
 		var allCountries = d3.selectAll('.country');
 		hdx.forEach(function(v) {
 			allCountries[0].forEach(function(c) {
@@ -162,7 +208,7 @@ var init = function() {
 						rate: v[year],
 						fill: function() {
 							var x = v[currentYear];
-							x = map_range(x, 0, 300, 80, 0);
+							x = map_range(x, 0, 326, 80, 0);
 							return d3.hsl(x, 0.9, 0.50);
 						}
 					})
@@ -182,14 +228,14 @@ var init = function() {
 						.attr({
 							fill: function() {
 								var x = v[year];
-								x = map_range(x, 0, 300, 80, 0);
+								x = map_range(x, 0, 326, 80, 0);
 								return d3.hsl(x, 0.9, 0.50);
 							}
 						});
 				}
 			});
 		});
-	currentYear = year;
+		currentYear = year;
 	};
 
 	var extractYear = function() {
@@ -249,6 +295,7 @@ var init = function() {
 		// remove old el
 		// remove
 		d3.selectAll('.node').remove();
+		d3.select('#legend').remove();
 
 		var allCountries = d3.selectAll('.country');
 		// return heat to default color and unbind event
@@ -261,9 +308,9 @@ var init = function() {
 		});
 		var mode = modeEl.value;
 		// console.log(mode);
-		if(mode === 'node') {
+		if (mode === 'node') {
 			drawNode(year);
-		} else if(mode === 'heat') {
+		} else if (mode === 'heat') {
 			drawHeat(year);
 		}
 	};
