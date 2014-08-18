@@ -85,6 +85,7 @@ var init = function() {
 			.enter()
 			.insert('path')
 			.attr({
+				fill: '#ffffcc',
 				title: function(d, i) {
 					return d.properties.name;
 				},
@@ -101,7 +102,7 @@ var init = function() {
 		d3.selectAll('.node').remove();
 		// console.log(radius);
 		console.log('D3', 'Drawing Country Node');
-		console.log(currentYear, year);
+		// console.log(currentYear, year);
 		var node = g.selectAll('.node').data(hdx);
 		node
 			.enter()
@@ -130,8 +131,8 @@ var init = function() {
 					return parseInt(d);
 				});
 				tooltip.classed('hidden', false)
-				.attr('style', 'left:' + (mouse[0]+10) + 'px; top:' + (mouse[1]+30) + 'px')
-				.html(d3.select(this).attr('name').toLowerCase().capitalize() + ', ' + d3.select(this).attr('rate'));
+					.attr('style', 'left:' + (mouse[0] + 10) + 'px; top:' + (mouse[1] + 30) + 'px')
+					.html(d3.select(this).attr('name').toLowerCase().capitalize() + ', ' + d3.select(this).attr('rate'));
 			})
 			.on('mouseout', function() {
 				tooltip.classed('hidden', true);
@@ -148,6 +149,47 @@ var init = function() {
 			});
 
 		currentYear = year;
+	};
+
+	var drawHeat = function(year) {
+		var allCountries = d3.selectAll('.country');
+		hdx.forEach(function(v) {
+			allCountries[0].forEach(function(c) {
+				if (v['Country name'].toLowerCase() === d3.select(c).attr('title').toLowerCase()) {
+					// console.log('match');
+					d3.select(c).attr({
+						// fill: d3.hsl(80, 0.75, 0.5)
+						rate: v[currentYear],
+						fill: function() {
+							var x = v[currentYear];
+							x = map_range(x, 0, 300, 80, 0);
+							return d3.hsl(x, 0.9, 0.50);
+						}
+					})
+						.on('mouseover', function() {
+							var mouse = d3.mouse(svg.node()).map(function(d) {
+								return parseInt(d);
+							});
+							tooltip.classed('hidden', false)
+								.attr('style', 'left:' + (mouse[0] + 10) + 'px; top:' + (mouse[1] + 30) + 'px')
+								.html(d3.select(this).attr('title').toLowerCase().capitalize() + ', ' + d3.select(this).attr('rate'));
+						})
+						.on('mouseout', function() {
+							tooltip.classed('hidden', true);
+						})
+						.transition()
+						.duration(1000)
+						.attr({
+							fill: function() {
+								var x = v[year];
+								x = map_range(x, 0, 300, 80, 0);
+								return d3.hsl(x, 0.9, 0.50);
+							}
+						});
+				}
+			});
+		});
+	currentYear = year;
 	};
 
 	var extractYear = function() {
@@ -184,7 +226,9 @@ var init = function() {
 					d3.select(this).attr('class', 'yearDot selected');
 					// redraw node
 					// console.log(currentYear, d3.select(this).attr('year'));
-					drawNode(d3.select(this).attr('year'));
+					redraw(d3.select(this).attr('year'));
+					// drawHeat(d3.select(this).attr('year'));
+					// drawNode(d3.select(this).attr('year'));
 				});
 
 			t.append('text')
@@ -199,6 +243,34 @@ var init = function() {
 		t.attr('transform', 'translate(' + (width - t_width - 50) + ', ' + (height - 30) + ')');
 	};
 
+	var modeEl = document.getElementById('vizMode');
+
+	var redraw = function(year) {
+		// remove old el
+		// remove
+		d3.selectAll('.node').remove();
+		var allCountries = d3.selectAll('.country');
+		// return heat to default color
+		allCountries[0].forEach(function(c) {
+			d3.select(c).attr({
+				fill: '#ffffcc'
+			});
+		});
+		var mode = modeEl.value;
+		// console.log(mode);
+		if(mode === 'node') {
+			drawNode(year);
+		} else if(mode === 'heat') {
+			drawHeat(year);
+		}
+	};
+
+	// listener for select option
+	modeEl.addEventListener('change', function() {
+		console.log(modeEl.value);
+		redraw(currentYear);
+	});
+
 	topo = topojson.feature(topo, topo.objects.countries).features;
 	// draw country
 	drawMap(topo);
@@ -208,7 +280,8 @@ var init = function() {
 	drawTimeline();
 	// init first year in the list
 	d3.select('.yearDot').attr('class', 'yearDot selected');
-	drawNode(currentYear);
+	// drawNode(currentYear);
+	redraw(currentYear);
 };
 
 // helper
@@ -217,5 +290,5 @@ function map_range(value, low1, high1, low2, high2) {
 }
 
 String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
+	return this.charAt(0).toUpperCase() + this.slice(1);
 }
