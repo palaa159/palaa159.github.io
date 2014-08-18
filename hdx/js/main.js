@@ -159,7 +159,7 @@ var init = function() {
 					// console.log('match');
 					d3.select(c).attr({
 						// fill: d3.hsl(80, 0.75, 0.5)
-						rate: v[currentYear],
+						rate: v[year],
 						fill: function() {
 							var x = v[currentYear];
 							x = map_range(x, 0, 300, 80, 0);
