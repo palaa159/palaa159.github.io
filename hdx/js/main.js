@@ -254,7 +254,7 @@ var init = function() {
 		// return heat to default color and unbind event
 		allCountries[0].forEach(function(c) {
 			d3.select(c).attr({
-				fill: '#ffffcc'
+				fill: '#ffffff'
 			}).on('mouseover', function() {
 				// nothing happens
 			});
