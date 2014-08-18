@@ -50,11 +50,11 @@ svg#mapContainer {
 	stroke-opacity: 0.05;
 }
 
-/*.country:hover {
-	stroke: #e1e1e1;
+.country:hover {
+	stroke: #666666;
 	stroke-width: 1.2px;
-	stroke-opacity: 1;
-}*/
+	stroke-opacity: 0.8;
+}
 
 .controls {
 	position: fixed;
