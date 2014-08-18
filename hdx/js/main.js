@@ -138,7 +138,6 @@ var init = function() {
 			})
 			.transition()
 			.duration(1000)
-			.ease('bounce')
 			.attr({
 				r: function(d, i) {
 					return map_range(d[year], 10, 500, 5, 100);
@@ -207,7 +206,7 @@ var init = function() {
 	extractYear();
 	// draw timeline
 	drawTimeline();
-	// draw circle  nodes
+	// init first year in the list
 	d3.select('.yearDot').attr('class', 'yearDot selected');
 	drawNode(currentYear);
 };
