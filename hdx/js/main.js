@@ -147,8 +147,6 @@ var init = function() {
 					return d[year];
 				}
 			});
-
-		currentYear = year;
 	};
 
 	var drawHeat = function(year) {
@@ -268,12 +266,10 @@ var init = function() {
 					year: v
 				})
 				.on('click', function() {
-					// d3.select(this).attr('class', 'yearDot selected');
+					// stop runtime
+					loop.stop();
 					// redraw node
-					// console.log(currentYear, d3.select(this).attr('year'));
 					redraw(d3.select(this).attr('year'));
-					// drawHeat(d3.select(this).attr('year'));
-					// drawNode(d3.select(this).attr('year'));
 				});
 
 			t.append('text')
@@ -316,6 +312,7 @@ var init = function() {
 		} else if (mode === 'heat') {
 			drawHeat(year);
 		}
+		currentYear = year;
 	};
 	var modeEl = document.getElementById('vizMode'),
 		autoplayBtn = document.getElementById('autoplay');
@@ -323,13 +320,13 @@ var init = function() {
 	var Runtime = function(delay, array) {
 		this.delay = delay;
 		this.array = array;
-		this.counter = 0;
 		this.interval = null;
-		var i = 0;
+		var i = array.indexOf(currentYear);
 		// console.log(this.counter);
 		this.start = function() {
 			// var i = 0;
-			interval = setInterval(function() {
+			this.interval = setInterval(function() {
+				i = array.indexOf(currentYear);
 				if(i == array.length-1) {
 					i = 0;
 				} else {
@@ -341,12 +338,15 @@ var init = function() {
 			return this;
 		};
 		this.stop = function() {
-			clearInterval(interval);
+			autoplayBtn.innerText = 'Autoplay';
+			if(this.interval) {
+				clearInterval(this.interval);
+			}
 			return this;
 		};
 		return this;
 	};
-	var loop = new Runtime(2000, key_year);
+	var loop = new Runtime(1500, key_year);
 	// listener for select option
 	modeEl.addEventListener('change', function() {
 		console.log(modeEl.value);
