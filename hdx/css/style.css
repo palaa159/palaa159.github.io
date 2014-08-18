@@ -75,6 +75,7 @@ svg#mapContainer {
 	stroke: rgba(0,0,0,0.6);
 	stroke-width: 1.5px;
 	cursor: pointer;
+	stroke-dasharray: 3,3;
 }
 
 .node:hover {
