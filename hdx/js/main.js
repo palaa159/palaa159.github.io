@@ -249,11 +249,14 @@ var init = function() {
 		// remove old el
 		// remove
 		d3.selectAll('.node').remove();
+
 		var allCountries = d3.selectAll('.country');
-		// return heat to default color
+		// return heat to default color and unbind event
 		allCountries[0].forEach(function(c) {
 			d3.select(c).attr({
 				fill: '#ffffcc'
+			}).on('mouseover', function() {
+				// nothing happens
 			});
 		});
 		var mode = modeEl.value;
