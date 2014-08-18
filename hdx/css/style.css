@@ -75,14 +75,14 @@ svg#mapContainer {
 	stroke: rgba(0,0,0,0.6);
 	stroke-width: 1.5px;
 	cursor: pointer;
-	stroke-dasharray: 5,1;
+	/*stroke-dasharray: 5,1;*/
 }
 
 .node:hover {
 	fill: rgba(255,255,255,0);
 	stroke-width: 8px;
 	stroke: #ff9933;
-	stroke-dasharray: none;
+	/*stroke-dasharray: none;*/
 }
 
 .year {
