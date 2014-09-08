@@ -4,32 +4,36 @@ body {
 }
 
 #app {
-  width: 760px;
+  width: 480px;
   margin: 0 auto;
   color: black;
   font-weight: 100;
 }
 
 .appTitle {
+  margin-top: 15px;
   text-align: center;
-  font-size: 3em;
+  font-size: 2em;
+  font-weight: 100;
 }
 
 #itemsContainer {
-  text-align: center;
+  text-align: left;
   font-size: 2em;
-  margin-top: 25px;
+  margin: 25px 0px 0px 15px;
+  padding: 0px 0px 15px 0px;
 }
 
+.item {
+  font-size: 0.85em;
+  margin-bottom: 5px;
+}
 .item .itemTitle {
   padding: 0px 10px 0px 10px;
 }
 .item .itemFavorite {
   color: #d9d9d9;
   cursor: pointer;
-}
-.item .itemFavorite:hover {
-  color: #b3a1d9;
 }
 .item .itemDelete {
   color: #d9d9d9;
@@ -53,6 +57,7 @@ body {
   border-bottom-left-radius: 10px;
   color: #86d5d9;
   width: 200px;
+  font-weight: 100;
 }
 #inputContainer #itemAddBtn {
   margin-left: -6px;
@@ -71,5 +76,5 @@ body {
 }
 
 .fav {
-  color: #ffd5d9 !important;
+  color: #b3a1d9 !important;
 }
