@@ -1,0 +1,24 @@
+/* your style begins here */
+
+/* helpers */
+.no-margin {
+	margin: 0;
+}
+
+.center {
+	text-align: center;
+}
+
+.bold {
+	font-weight: 700;
+}
+
+/*table*/
+.tb_result {
+	width: 100%;
+	text-align: left;
+}
+
+th {
+	font-weight: bold;
+}
