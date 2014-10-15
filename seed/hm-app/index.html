@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Herman Miller</title>
+	<title>Herman Miller Data Resources Catalogue</title>
 	<meta charset="utf-8" />
 	<meta name="format-detection" content="telephone=no">
 	<meta name="msapplication-tap-highlight" content="no">
@@ -10,86 +10,90 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-	<div class="container" id="top-fixed">
-		<div class="sixteen columns">
-			<h2>Herman Miller</h2>
+	<div id="top-header">
+		<div id="header" class="row">
+			<div class="container">
+				<div class="header-left">
+					<h4 class="title">Herman Miller<br>Data Resources Catalogue</h4>
+				</div>
+				<div class="header-right">
+					<img height="50" src="img/hm_ss.jpg" alt="logo">
+				</div>
+			</div>
 		</div>
-		<div class="row" id="data-filter">
+	</div>
+	<div class="container">
+		<div class="row" id="data-filter" style="margin-bottom: 15px">
 			<div class="four columns">
-				<p id="field_freq_updated" class="no-margin bold">Frequency Updated</p>
+				<span id="field_used_by" class="no-margin bold">Used By</span><span>:</span>
+				<select id="sel_used_by">
+					<option>Any</option>
+					<option>Design/Development</option>
+					<option>IT</option>
+					<option>Marketing</option>
+					<option>Performance Environments</option>
+					<option>Product Management</option>
+					<option>Research</option>
+					<option>Sales</option>		
+				</select>
+			</div>
+			<div class="four columns">
+				<span id="field_linked_to" class="no-margin bold">Linked to</span><span>:</span>
+				<select id="sel_linked_to">
+					<option>Any</option>
+					<!-- <option>Time</option> -->
+					<option>Product</option>
+					<option>Product Family</option>
+					<option>Product Category</option>
+					<option>Customer</option>
+					<option>Customer Segment</option>
+					<option>Dealer</option>
+					<option>Employee</option>
+					<option>Region</option>
+				</select>
+			</div>
+			<div class="four columns">
+				<span id="field_freq_updated" class="no-margin bold">Frequency Updated</span><span>:</span>
 				<select id="sel_freq_update">
 					<option>Any</option>
+					<option>Real Time</option>
 					<option>Daily</option>
 					<option>Weekly</option>
 					<option>Monthly</option>
 					<option>Once</option>
-					<option>Once with project</option>
-					<option>Static</option>
-					<option>Constantly</option>
-					<option>With Engagement</option>
 				</select>
 			</div>
 			<div class="four columns">
-				<p id="field_used_by" class="no-margin bold">Used By</p>
-				<select id="sel_used_by">
-					<option>Any</option>
-					<option>Marketing</option>
-					<option>Development</option>
-					<option>Performance Environments</option>
-					<option>Sales</option>
-					<option>Design/Development</option>
-					<option>IT</option>
-					<option>IT - Collaboration</option>
-					<option>Digital Marketing</option>
-					<option>Product Management</option>
-					<option>Research</option>
-					<option>Project Management</option>
-				</select>
+				<button id="btn_submit">Look up</button>
 			</div>
-			<div class="four columns">
-				<p id="field_linked_to" class="no-margin bold">Linked to</p>
-				<select id="sel_linked_to">
-					<option>Any</option>
-					<option>Time</option>
-					<option>Product</option>
-					<option>Customer</option>
-					<option>Dealer</option>
-					<option>Employee</option>
-					<option>Region</option>
-					<option>Segment</option>
-					<option>Product Family</option>
-					<option>Category</option>
-				</select>
-			</div>
-			<div class="four columns">
-				<button id="btn_submit">GO</button>
-			</div>
-			<hr class="no-margin">
+<!-- 			<hr class="no-margin"> -->
 		</div>
 	</div>
 
+	<div id="result_full">
 	<div class="container" id="result-scrolling">
 		<div id="result_container" class="sixteen columns center">
 			<h4>No result found.</h4>
 		</div>
 	</div>
-
+	</div>
 	<!-- Lo-dash template -->
 	<script type="text/template" id="tpl-result">
 		<% if(array.length === 0) { %>
-			<h4>No result found.</h4>
+			<h4>Sorry, no result found.</h4>
 		<% } else { %>
 		<table class="tb_result">
-			<tbody>
+			<thead>
 				<tr>
-					<th>Number</th>
-					<th>Name</th>
-					<th>Unit</th>
-					<th>Location (System)</th>
-					<th>Frequency Updated</th>
-					<th>Frequency Used</th>
+					<th style="width: 1%;"></th>
+					<th style="width: 24%;">Name</th>
+					<th style="width: 12%;">Unit</th>
+					<th style="width: 20%;">Location (System)</th>
+					<th style="width: 23%;">Frequency Updated</th>
+					<th style="width: 20%;">Frequency Used</th>
 				</tr>
+			</thead>
+			<tbody>
 				<% _.each(array, function(item, i) { %>
 					<tr>
 						<td><%= i+1 %></td>
