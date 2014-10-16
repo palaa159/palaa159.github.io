@@ -36,6 +36,7 @@
 .tb_result {
 	width: 100%;
 	text-align: left;
+  display: none;
 }
 
 thead {
@@ -117,6 +118,10 @@ tbody:hover > tr:hover td {
 }
 
 /**/
+
+#number_of_resources {
+  font-size: 1.2em;
+}
 
 h4.title > * {
 	font-family: Avenir_book;

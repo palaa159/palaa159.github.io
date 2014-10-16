@@ -22,6 +22,7 @@ app.main = (function() {
         filter_1 = 'Any';
         filter_2 = 'Any';
         filter_3 = 'Any';
+        render();
         attachEvents();
     };
 
@@ -52,94 +53,65 @@ app.main = (function() {
         $('#btn_submit')
             .off('click')
             .on('click', function() {
-                console.log('empty output');
-                output = [];
-                console.log('filter#1: ' + filter_1);
-                console.log('filter#2: ' + filter_2);
-                console.log('filter#3: ' + filter_3);
-
-                var tmp1 = [], tmp2 = [], tmp3 = [];
-
-                // Filtering
-                _.each(inventory, function(item) {
-                    // Filter 1
-                    if (filter_1 !== 'Any' && item[$('#field_freq_updated').text()] === filter_1) {
-                        // console.log('yes');
-                        tmp1.push(item);
-                    } else if (filter_1 === 'Any') {
-                        tmp1.push(item);
-                    }
-                    // Filter 2
-                    if (filter_2 !== 'Any' &&
-                        (item['Used By Department 1'] === filter_2) ||
-                        item['Used By Department 2'] === filter_2 ||
-                        item['Used By Department 3'] === filter_2 ||
-                        item['Used By Department 4'] === filter_2) {
-                        tmp2.push(item);
-                    } else if (filter_2 === 'Any') {
-                        tmp2.push(item);
-                    }
-                    // Filter 3
-                    if (filter_3 !== 'Any' &&
-                        (item['Linkable Data 1'] === filter_3) ||
-                        item['Linkable Data 2'] === filter_3 ||
-                        item['Linkable Data 3'] === filter_3) {
-                        tmp3.push(item);
-                    } else if (filter_3 === 'Any') {
-                        tmp3.push(item);
-                    }
-                });
-                    // C#1 every filters are Any
-                //     if (filter_1 === 'Any' &&
-                //         filter_2 === 'Any' &&
-                //         filter_3 === 'Any') {
-                //         output.push(item);
-
-                //     } else if (item['Frequency Updated'] === filter_1 &&
-                //         (item['Used By Department 1'] === filter_2 ||
-                //             item['Used By Department 2'] === filter_2 ||
-                //             item['Used By Department 3'] === filter_2 ||
-                //             item['Used By Department 4'] === filter_2) &&
-                //         (item['Linkable Data 1'] === filter_3 ||
-                //             item['Linkable Data 2'] === filter_3 ||
-                //             item['Linkable Data 3'] === filter_3)) {
-                //         // C#2 every filters aren't Any
-                //         output.push(item);
-                //     } else if (filter_1 === 'Any' &&
-                //         (item['Used By Department 1'] === filter_2 ||
-                //             item['Used By Department 2'] === filter_2 ||
-                //             item['Used By Department 3'] === filter_2 ||
-                //             item['Used By Department 4'] === filter_2) &&
-                //         (item['Linkable Data 1'] === filter_3 ||
-                //             item['Linkable Data 2'] === filter_3 ||
-                //             item['Linkable Data 3'] === filter_3)) {
-                //         // C#3 every filters aren't Any except F1
-                //         output.push(item);
-                //     } else if (item['Frequency Updated'] === filter_1 &&
-                //         (filter_2 === 'Any') &&
-                //         (item['Linkable Data 1'] === filter_3 ||
-                //             item['Linkable Data 2'] === filter_3 ||
-                //             item['Linkable Data 3'] === filter_3)) {
-                //         // C#4 every filters aren't Any except F2
-                //         output.push(item);
-                //     }
-                // });
-
-                // outputing
-                // unifying; removing duplicated entries
-                // console.log(output);
-                output = _.intersection(tmp1, tmp2, tmp3);
-                console.log(output);
-                // console.log(output);
-                // console.log(output);
-                // render
-                var template = $('#tpl-result').html();
-                var compiled = _.template(template, {
-                    array: output
-                });
-
-                $('#result_container').html(compiled);
+                render();
             });
+    };
+
+    var render = function() {
+        console.log('empty output');
+        output = [];
+        console.log('filter#1: ' + filter_1);
+        console.log('filter#2: ' + filter_2);
+        console.log('filter#3: ' + filter_3);
+
+        var tmp1 = [],
+            tmp2 = [],
+            tmp3 = [];
+
+        // Filtering
+        _.each(inventory, function(item) {
+            // Filter 1
+            if (filter_1 !== 'Any' && item[$('#field_freq_updated').text()] === filter_1) {
+                // console.log('yes');
+                tmp1.push(item);
+            } else if (filter_1 === 'Any') {
+                tmp1.push(item);
+            }
+            // Filter 2
+            if (filter_2 !== 'Any' &&
+                (item['Used By Department 1'] === filter_2) ||
+                item['Used By Department 2'] === filter_2 ||
+                item['Used By Department 3'] === filter_2 ||
+                item['Used By Department 4'] === filter_2) {
+                tmp2.push(item);
+            } else if (filter_2 === 'Any') {
+                tmp2.push(item);
+            }
+            // Filter 3
+            if (filter_3 !== 'Any' &&
+                (item['Linkable Data 1'] === filter_3) ||
+                item['Linkable Data 2'] === filter_3 ||
+                item['Linkable Data 3'] === filter_3) {
+                tmp3.push(item);
+            } else if (filter_3 === 'Any') {
+                tmp3.push(item);
+            }
+        });
+        output = _.intersection(tmp1, tmp2, tmp3);
+        // console.log(output);
+        // print number of data returned
+        $('#number_of_resources').html(output.length + ' Data Resources found.');
+        // console.log(output);
+        // console.log(output);
+        // render
+        var template = $('#tpl-result').html();
+        var compiled = _.template(template, {
+            array: output
+        });
+
+        $('#result_container').html(compiled);
+
+        $('.tb_result').fadeIn();
     };
 
     return {
