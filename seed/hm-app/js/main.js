@@ -100,7 +100,7 @@ app.main = (function() {
         output = _.intersection(tmp1, tmp2, tmp3);
         // console.log(output);
         // print number of data returned
-        $('#number_of_resources').html(output.length + ' Data Resources found.');
+        $('#number_of_resources').html(output.length + ' Data Resources found');
         // console.log(output);
         // console.log(output);
         // render
