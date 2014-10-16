@@ -118,9 +118,13 @@ tbody:hover > tr:hover td {
 
 /**/
 
-h4.title {
+h4.title > * {
 	font-family: Avenir_book;
 	color: #ff0000;
+}
+
+.strong {
+  font-family: Avenir_medium !important;
 }
 
 #top-header {
