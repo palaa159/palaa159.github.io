@@ -174,7 +174,7 @@ app.main = (function() {
             .charge(-80)
             .linkDistance(70);
 
-        d3.csv('../data/vis/' + csv, function(links) {
+        d3.csv('data/vis/' + csv, function(links) {
             var nodesByName = {};
 
             // Create nodes for each unique source and target.
