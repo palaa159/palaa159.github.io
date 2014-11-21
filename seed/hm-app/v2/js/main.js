@@ -255,7 +255,7 @@ app.main = (function() {
                         } else if (_.contains(key_dep, d.name)) {
                             return 10;
                         } else {
-                            return 2;
+                            return 4;
                         }
                     },
                     fill: function(d) {
