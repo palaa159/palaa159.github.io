@@ -3,9 +3,13 @@
 var app = app || {};
 
 app.main = (function() {
+    // d3
+    var force;
     var inventory = [],
         filter_1, filter_2, filter_3, filter_4, output = [],
-        keys = ["Any", "Design/Development", "IT", "Marketing", "Performance Environments", "Product Management", "Research", "Sales", "Any", "Product", "Product Family", "Product Category", "Customer", "Customer Segment", "Dealer", "Employee", "Region", "Any", "Real Time", "Daily", "Weekly", "Monthly", "Once", "Any", "People", "Product", "Place"];
+        key_ppp = ['People', 'Product', 'Place'],
+        key_linkage = ['Product', 'Product Family', 'Product Category', 'Customer', 'Customer Segment', 'Dealer', 'Employee', 'Region'],
+        key_dep = ['Design/Development', 'IT', 'Marketing', 'Performance Environments', 'Product Management', 'Research', 'Sales'];
     var load = function() {
         // app starts running here
         var path = 'data/inventory.csv';
@@ -40,6 +44,11 @@ app.main = (function() {
 
     var renderPage = function(page) { // --> #/blah
         $('#view').html('');
+        $('svg').remove();
+        if(force) {
+            force.stop();
+        }
+        $('.d3-tip').remove();
         if (page === '#/search') {
             filter_1 = 'Any';
             filter_2 = 'Any';
@@ -49,6 +58,8 @@ app.main = (function() {
             var compiled = _.template(template);
             $('#view').html(compiled);
             renderSearch();
+        } else if (page === '#/vis_all') {
+            renderD3('all.csv');
         } else if (page === '#/vis_ppp') {
             renderD3('ppp.csv');
         } else if (page === '#/vis_linkage') {
@@ -146,7 +157,7 @@ app.main = (function() {
         output = _.intersection(tmp1, tmp2, tmp3, tmp4);
         // console.log(output);
         // print number of data returned
-        $('#number_of_resources').html(output.length + ' Data Resources found');
+        $('#number_of_resources').html(output.length + ' of ' + inventory.length + ' Data Resources found');
         // console.log(output);
         // console.log(output);
         // render
@@ -169,10 +180,10 @@ app.main = (function() {
             .attr("width", width)
             .attr("height", height);
 
-        var force = d3.layout.force()
+        force = d3.layout.force()
             .size([width, height])
-            .charge(-80)
-            .linkDistance(70);
+            .charge(-300)
+            .linkDistance(80);
 
         d3.csv('data/vis/' + csv, function(links) {
             var nodesByName = {};
@@ -189,21 +200,79 @@ app.main = (function() {
             // Create the link lines.
             var link = svg.selectAll(".link")
                 .data(links)
-                .enter().append("line")
-                .attr("class", "link");
+                .enter()
+                .append("line")
+                .attr({
+                    class: 'link',
+                    stroke: function(d) {
+                        // if ppp
+                        if (d.target_type === '1') {
+                            return '#00F2FF';
+                        } else if (d.target_type === '2') {
+                            return '#FF7040';
+                        } else if (d.target_type === '3') {
+                            return '#CC2814';
+                        } else {
+                            return '#000';
+                        }
+                    }
+                });
 
             // tooltip
             var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
                 return d.name;
             });
 
+            // create text
+            var text = svg.selectAll('g')
+                .data(nodes)
+                .enter().append('text')
+                .attr({
+                    class: 'text'
+                })
+                .text(function(d) {
+                    // console.log(d);
+                    if ( _.contains(key_linkage, d.name) || _.contains(key_ppp, d.name) || _.contains(key_dep, d.name)) {
+                        return d.name;
+                    }
+                });
+
             // Create the node circles.
-            var node = svg.selectAll(".node")
+            var node = svg.selectAll("g")
                 .data(nodes)
                 .enter().append("circle")
                 .attr({
-                    class: function(d) {
-                        return 'node';
+                    class: 'node',
+                    r: function(d) {
+                        // if ppp
+                        if (_.contains(key_ppp, d.name)) {
+                            // console.log('ppp');
+                            return 10;
+                            // if linkage
+                        } else if (_.contains(key_linkage, d.name)) {
+                            return 10;
+                            // if dep
+                        } else if (_.contains(key_dep, d.name)) {
+                            return 10;
+                        } else {
+                            return 2;
+                        }
+                    },
+                    fill: function(d) {
+                        // if ppp
+                        if (_.contains(key_ppp, d.name)) {
+                            // console.log('ppp');
+                            return '#00F2FF';
+                            // if linkage
+                        } else if (_.contains(key_dep, d.name)) {
+                            // console.log('linkage');
+                            return '#FF7040';
+                            // if dep
+                        } else if (_.contains(key_linkage, d.name)) {
+                            return '#CC2814';
+                        } else {
+                            return '#000';
+                        }
                     }
                 })
                 .on('mouseover', tip.show)
@@ -215,6 +284,7 @@ app.main = (function() {
             force
                 .nodes(nodes)
                 .links(links)
+                // .off('tick', null)
                 .on("tick", tick)
                 .start();
 
@@ -237,22 +307,15 @@ app.main = (function() {
                 })
                     .attr("cy", function(d) {
                         return d.y;
-                    })
-                    .attr('r', function(d) {
-                        if (d.weight >= 4) {
-                            return Math.max(d.weight / 20, 5);
-                        } else {
-                            return 4;
-                        }
-                    })
-                    .attr('fill', function(d) {
-                        if (d.weight >= 4) {
-                            // return color
-                            return 'hsl(1,75%,50%)';
-                        } else {
-                            return '#000';
-                        }
                     });
+                text.attr({
+                    dx: function(d) {
+                        return d.x + 8;
+                    },
+                    dy: function(d) {
+                        return d.y - 10;
+                    }
+                });
             }
 
             function nodeByName(name) {
