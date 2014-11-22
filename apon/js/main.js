@@ -31,37 +31,7 @@ var renderProjects = function(d) {
 
 var attachEvents = function() {
     $('.project').off('click').on('click', function() {
-        var that = $(this);
-        // console.log('click');
-        $('body').append($('<div id="limbo-bg">'));
-        $('#limbo-bg').animate({
-            opacity: 0.8
-        }, function() {
-            // console.log(data[that.attr('data-index')]);
-            var tpl = $('#tpl-project-detail').html();
-            var compiled = _.template(tpl, {
-                project: data[that.attr('data-index')].attributes
-            });
-            $('body').append(compiled);
-            $('.project-detail').animate({
-                height: s.height - 200
-            });
-            attachEvents();
-        });
-    });
-    $('.project-detail-close').off('click').on('click', function() {
-        $('.project-detail').animate({
-            height: 0
-        }, function() {
-            $('#limbo-bg').animate({
-                opacity: 0
-            }, function() {
-                setTimeout(function() {
-                    $('#limbo-bg').remove();
-                    $('.project-detail-body').remove();
-                }, 0);
-            });
-        });
+
     });
 };
 
