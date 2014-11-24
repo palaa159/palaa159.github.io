@@ -1,0 +1,155 @@
+/* your style begins here */
+
+@font-face {
+	font-family: Avenir_book;
+	src: url(../font/Avenir_LT_45_Book.ttf);
+}
+
+@font-face {
+	font-family: Avenir_medium;
+	src: url(../font/Avenir_LT_65_Medium.ttf);
+}
+
+@font-face {
+	font-family: Avenir_heavy;
+	src: url(../font/Avenir_LT_85_Heavy.ttf);
+}
+
+* {
+	font-family: Avenir_book !important;
+}
+
+/* helpers */
+.no-margin {
+	margin: 0;
+}
+
+.center {
+	text-align: center;
+}
+
+.bold {
+	font-weight: 700;
+}
+
+/*table*/
+.tb_result {
+	width: 100%;
+	text-align: left;
+  display: none;
+  margin-bottom: 50px;
+}
+
+thead {
+/*  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;*/
+}
+
+thead th {
+  font-family: Avenir_medium !important;
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+  text-align: left;
+  padding: 20px 10px;
+  background-image: -moz-linear-gradient(#646f7f, #4a5564);
+  background-image: -webkit-linear-gradient(#646f7f, #4a5564);
+  background-image: linear-gradient(#646f7f, #4a5564);
+  /*border-top: 1px solid #858d99;*/
+}
+thead th:first-child {
+  -moz-border-radius-topleft: 5px;
+  -webkit-border-top-left-radius: 5px;
+  border-top-left-radius: 5px;
+}
+thead th:last-child {
+  -moz-border-radius-topright: 5px;
+  -webkit-border-top-right-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+tbody tr td {
+  font-weight: 400;
+  color: #1e1e1e;
+  font-size: 15px;
+  padding: 15px 10px 15px 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+tbody tr:nth-child(2n) {
+  background: #f0f3f5;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+tbody tr:last-child td:first-child {
+  -moz-border-radius-bottomleft: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+tbody tr:last-child td:last-child {
+  -moz-border-radius-bottomright: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+tbody:hover > tr td {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+  /* uncomment for blur effect */
+  /* color:transparent;
+  @include text-shadow(0px 0px 2px rgba(0,0,0,0.8));*/
+}
+
+tbody:hover > tr:hover td {
+  text-shadow: none;
+  color: #1e1e1e;
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+
+/**/
+#btn_submit {
+	height: 35px;
+	width: 100%;
+	margin-top: 5px;
+}
+
+/**/
+
+#number_of_resources {
+  font-size: 1.2em;
+}
+
+h4.title > * {
+	font-family: Avenir_book;
+	color: #ff0000;
+}
+
+.strong {
+  font-family: Avenir_medium !important;
+}
+
+#top-header {
+	box-shadow: 0px 1px 7px #414141;
+}
+
+#header {
+	padding: 15px 0px !important;
+}
+
+#header h4 {
+	line-height: 24px;
+}
+
+.header-left {
+	float: left;
+}
+
+.header-right {
+	position: absolute;
+	right: 0;
+}

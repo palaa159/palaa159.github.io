@@ -1,0 +1,87 @@
+body {
+	background: #fff;
+}
+
+a, a:link, a:hover, a:visited {
+	text-decoration: none;
+	color: #fff;
+}
+
+/* Custom Navbar */
+nav {
+	background: #2b292a;
+	color: #fff;
+	/*height: 37px;*/
+	padding: 0px 10px 0px 10px;
+	/*border-bottom: 3px #fff solid;*/
+}
+
+.nav-left {
+	font-family: 'Lobster', cursive;
+	font-size: 2em;
+	line-height: 1.25em;
+}
+
+.nav-right {
+	font-family: 'Lato', sans-serif;
+	font-size: 2.25em;
+}
+
+.nav-right ul {
+	margin: 3px 0px 0px 0px;
+	text-align: right;
+}
+
+.nav-right ul li {
+	display: inline;
+	font-size: 0.55em;
+	font-weight: 700;
+	margin-right: 20px;
+}
+
+/*hero*/
+
+#hero-carousel {
+	max-height: 600px;
+	overflow: hidden;
+	background: #fff;
+	border-bottom: 3px #fff solid;
+}
+
+.carousel-content {
+	position: relative;
+	text-align: center;
+	font-family: 'Lato', sans-serif;
+	font-size: 2.25em;
+	color: #1f0011;
+}
+
+.title {
+	font-family: 'Lobster', cursive;
+	font-weight: 500;
+	font-size: 3em;
+	color: #000;
+	margin: 10px 0px 20px 0px;
+	line-height: 1em;
+}
+
+/*interim*/
+
+#img-parallax {
+	width: 100%;
+	height: 250px;
+	background: url(../img/parallax.jpg);
+	background-size: cover;
+	background-position: 0px -300px;
+}
+
+/*seen in*/
+#as-seen {
+	background: #e2f0df;
+}
+
+#as-seen * {
+	color: #1f211e;
+}
+
+/*media query for nav*/

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello I'm Apon.</title>
+	<meta charset="utf-8" />
+	<meta name="format-detection" content="telephone=no">
+	<meta name="msapplication-tap-highlight" content="no">
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+	<meta name="description" content="
+
+	______  ____    _____   __  __      ______   _____      
+	/\  _  \/\  _`\ /\  __`\/\ \/\ \    /\__  _\ /\  __`\    
+	\ \ \L\ \ \ \L\ \ \ \/\ \ \ `\\ \   \/_/\ \/ \ \ \/\ \   
+	\ \  __ \ \ ,__/\ \ \ \ \ \ , ` \     \ \ \  \ \ \ \ \  
+	\ \ \/\ \ \ \/  \ \ \_\ \ \ \`\ \  __ \_\ \__\ \ \_\ \ 
+	\ \_\ \_\ \_\   \ \_____\ \_\ \_\/\_\/\_____\\ \_____\
+	\/_/\/_/\/_/    \/_____/\/_/\/_/\/_/\/_____/ \/_____/
+
+	">
+	<meta name="keywords" content="Apon, Apon Palanuwech, portfolio, MFADT, Design, Technology, Mobile, UX, UI, D3, Data Visualization, Web, App, Node.js, Arduino, openFrameworks, Cordova, Phonegap, Data, Network, WiFi">
+	<!-- Load CSS -->
+	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/skeleton.min.css">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/style.css">
+	<!-- ICON -->
+	<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+	<link rel="icon" href="./favicon.ico" type="image/x-icon">
+</head>
+<body>
+	<!-- body starts here -->
+
+	<nav>
+		<div class="container">
+			<div class="sixteen columns">
+				<!-- <span class="logo"></span> -->
+				<a href="#main-projects"><li>/projects</li></a>
+				<a href="#"><li>/playground</li></a>
+				<a href="assets/apon_resume.pdf"><li>/resume</li></a>
+				<a href="mailto:reach.apon@gmail.com"><li>/get in touch</li></a>
+				<li id="link-social">
+					<a href="http://github.com/palaa159" target="_blank"><img src="img/github-128.png" alt="GitHub"></a>
+					<a href="http://www.linkedin.com/pub/apon-palanuwech/40/984/296/" target="_blank"><img src="img/linkedin-256.png" alt="Linkedin"></a>
+					<a href="http://instagram.com/perfectmixture" target="_blank"><img src="img/instagram-128.png" alt="instagram"></a>
+					<a href="http://facebook.com/graphicsandmore" target="_blank"><img src="img/facebook-256.png" alt="Facebook"></a>
+				</li>
+			</div>
+		</div>
+	</nav>
+
+	<section id="main">
+		<div id="intro">
+			<div class="container">
+				<div class="row">
+					<div class="sixteen columns">
+						<h1>Hello, <br>I'm Apon.</h1>
+						<span>Creative Technologist / Developer</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="sixteen columns">
+						<div class="intro-text intro-1">
+							Long story short, a guy who designs and codes, and everything in between.
+						</div>
+						<div class="intro-text intro-2">
+							Wanna learn more? or sneak into my playground, perhaps.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="main-projects">
+		<div id="projects">
+			<div class="container">
+			</div>
+		</div>
+	</section>
+	<footer>
+		<div class="container">
+			<pre><small>©2014 Apon.io is Apon Palanuwech.</small></pre>
+		</div>
+	</footer>
+
+
+	<script type="text/html" id="tpl-project">
+		<div class="eight columns project" data-index="<%= index %>">
+			<div class="project-cover" style="background: url(<%= project.cover._url %>) no-repeat;"></div>
+			<span class="project-title"><%= project.title %></span>
+			<% if(project.collaborators) { %>
+				<span class="project-collaborators">w/ <%= project.collaborators %></span>
+			<% } %>
+		</div>
+	</script>
+
+	<script type="text/html" id="tpl-project-detail">
+		<div class="project-detail-body">
+			<div class="container project-detail">
+				<div class="row">
+					<div class="sixteen columns">
+						<span class="project-detail-close">&times;</span>
+						<span class="project-detail-title"><%= project.title %></span>
+					</div>
+				</div>
+				<div class="row">
+				</div>
+			</div>
+		</div>
+	</script>
+
+	<!-- Load scripts -->
+	<script type="text/javascript" src="js/vendor/jquery.min.js"></script>
+	<script type="text/javascript" src="js/vendor/lodash.min.js"></script>
+	<script type="text/javascript" src="js/vendor/parse.min.js"></script>
+	<script type="text/javascript" src="js/parse.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>

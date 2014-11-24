@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Herman Miller Data Universe</title>
+	<meta charset="utf-8" />
+	<meta name="format-detection" content="telephone=no">
+	<meta name="msapplication-tap-highlight" content="no">
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+	<link rel="stylesheet" href="css/skeleton.min.css">
+	<link rel="stylesheet" href="css/lightbox.css">
+	<link rel="stylesheet" href="css/d3.tip.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div id="top-header">
+		<div id="header" class="row">
+			<div class="container">
+				<div class="header-left">
+					<h4 class="title"><span class="strong hmcolor">Herman Miller</span><br>Data Universe</h4>
+					<li class="menu"><a href="#/search">Filter</a></li>
+					<li class="menu"><a href="#/vis_all">All (Beta)</a></li>
+					<li class="menu"><a href="#/vis_ppp">3P Network</a></li>
+					<li class="menu"><a href="#/vis_linkage">Linkage Network</a></li>
+					<li class="menu"><a href="#/vis_department">Department Network</a></li>
+				</div>
+				<div class="header-right">
+					<img height="50" src="img/hm_ss.jpg" alt="logo">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="view">
+	</div>
+	<!-- Lo-dash template -->
+	<script type="text/template" id="tpl-filter">
+		<div class="container">
+			<div class="row" id="data-filter" style="margin-bottom: 0px">
+				<div class="four columns">
+					<span id="field_used_by" class="no-margin bold">Used By</span><span>:</span>
+					<select id="sel_used_by">
+						<option>Any</option>
+						<option>Design/Development</option>
+						<option>IT</option>
+						<option>Marketing</option>
+						<option>Performance Environments</option>
+						<option>Product Management</option>
+						<option>Research</option>
+						<option>Sales</option>		
+					</select>
+				</div>
+				<div class="four columns">
+					<span id="field_linked_to" class="no-margin bold">Linked to</span><span>:</span>
+					<select id="sel_linked_to">
+						<option>Any</option>
+						<!-- <option>Time</option> -->
+						<option>Product</option>
+						<option>Product Family</option>
+						<option>Product Category</option>
+						<option>Customer</option>
+						<option>Customer Segment</option>
+						<option>Dealer</option>
+						<option>Employee</option>
+						<option>Region</option>
+					</select>
+				</div>
+				<div class="four columns">
+					<span id="field_freq_updated" class="no-margin bold">Frequency Updated</span><span>:</span>
+					<select id="sel_freq_updated">
+						<option>Any</option>
+						<option>Real Time</option>
+						<option>Daily</option>
+						<option>Weekly</option>
+						<option>Monthly</option>
+						<option>Once</option>
+					</select>
+				</div>
+				<div class="four columns">
+					<span id="field_relevant_to" class="no-margin bold">Relevant to</span><span>:</span>
+					<select id="sel_relevant_to">
+						<option>Any</option>
+						<option>People</option>
+						<option>Product</option>
+						<option>Place</option>
+					</select>
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 0px;">
+				<div class="fourteen columns">
+					<p id="number_of_resources"><span>Data Resources found.</span></p>
+				</div>
+				<div class="two columns submitBtn">
+					<button id="btn_submit">Look up</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="result_full">
+			<div class="container" id="result-scrolling">
+				<div id="result_container" class="sixteen columns center">
+					<h4>Sorry, no result found.</h4>
+				</div>
+			</div>
+		</div>
+	</script>
+
+	<script type="text/template" id="tpl-result">
+	<% if(array.length === 0) { %>
+		<h4>Sorry, no result found.</h4>
+		<% } else { %>
+			<table class="tb_result">
+			<thead>
+			<tr>
+			<th style="width: 1%;"></th>
+			<th style="width: 40%;">Name</th>
+			<!-- <th style="width: 12%;">Unit</th> -->
+			<th style="width: 20%;">Location (System)</th>
+			<th style="width: 15%;">Frequency Updated</th>
+			<th style="width: 15%;">Frequency Used</th>
+			<th style="width: 9%;">Image Key</th>
+			</tr>
+			</thead>
+			<tbody>
+			<% _.each(array, function(item, i) { %>
+				<tr>
+				<td><%= i+1 %></td>
+				<td><%= item['Name'] %></td>
+				<!-- <td><%= item['Unit'] %></td> -->
+				<td><%= item['Location (System)'] %></td>
+				<td><%= item['Frequency Updated'] %></td>
+				<td><%= item['Frequency Used'] %></td>
+				<% if(item['Image Key'] === 'Null' || item['Image Key'] === '') { %>
+					<td>No Image</td>
+					<% } else if(item['Image Key'] !== 'Null' && item['Image Key'] !== '') { %>
+						<td><a data-title="" data-lightbox="<%= item['Image Key'] %>" href="img/img_key/HM_<%= item['Image Key'] %>.png">View</a></td>
+						<% } %>
+						</tr>
+						<% }); %>
+			</tbody>
+			</table>
+		<% } %>
+	</script>
+
+	<!-- D3 -->
+	<script type="text/template" id="tpl-d3">
+
+	</script>
+
+	<!-- Load scripts -->
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/lightbox.min.js"></script>
+	<script type="text/javascript" src="js/d3.min.js"></script>
+	<script type="text/javascript" src="js/d3.tip.js"></script>
+	<script type="text/javascript" src="js/queue.v1.min.js"></script>
+	<script type="text/javascript" src="js/lodash.min.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
