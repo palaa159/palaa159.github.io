@@ -11,6 +11,7 @@ DB.main = (function() {
 				// console.log(results);
 				var e = $.Event('qSuccess');
 				e.projects = results;
+				data = e.projects;
 				$(window).trigger(e);
 			}
 		});

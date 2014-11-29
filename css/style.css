@@ -43,7 +43,8 @@ nav #link-social img {
 }
 
 #main-projects {
-  margin: 20px 0px;
+  padding: 50px 0px;
+  background: #fff;
 }
 
 #intro {
@@ -93,6 +94,7 @@ footer .container pre small {
 
 .project {
   cursor: pointer;
+  height: 250px;
 }
 
 .project-collaborators {
@@ -123,8 +125,9 @@ footer .container pre small {
 
 .project-detail-close {
   float: right;
-  font-size: 5em;
-  margin-right: 15px;
+  font-size: 3em;
+  margin-top: 5px;
+  margin-right: 0px;
   cursor: pointer;
 }
 
@@ -134,6 +137,42 @@ footer .container pre small {
 }
 
 .project-detail-title {
-  margin: -10px 0px 0px 0px;
+  color: #482c9e;
+  position: relative;
+  top: 0px;
+  margin: 0px 0px 0px 0px;
   font-size: 3em;
+  line-height: 1.05em;
+}
+
+.project-detail-misc-container {
+  position: relative;
+  top: 20px;
+  font-size: 1.12em;
+}
+
+.project-detail-paragraph {
+  margin-top: 10px;
+  font-size: 1.25em;
+  line-height: 1.3em;
+}
+
+.project-detail-image {
+  margin: 15px 0px;
+}
+
+svg {
+  position: fixed;
+  z-index: 0;
+  top:-0px; left:0;
+}
+
+g {
+  opacity: 0.95;
+}
+
+path {
+  fill: none;
+  /* stroke: #000; */
+  /* stroke-width: 3px; */ 
 }
