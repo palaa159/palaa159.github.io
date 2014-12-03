@@ -225,8 +225,7 @@ svg {
 }
 
 .node {
-  stroke-width: 2px;
-  stroke: #ebf7ff;
+  stroke: none;
 }
 
 .i_link, .i_dep, .i_cat {

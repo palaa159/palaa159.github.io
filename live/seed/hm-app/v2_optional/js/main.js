@@ -128,7 +128,6 @@ app.main = (function() {
     };
 
     var renderSearch = function() {
-        $(window).off('resize');
         console.log('empty output');
         output = [];
         console.log('filter#1: ' + filter_1);
@@ -217,10 +216,8 @@ app.main = (function() {
 
             // Create nodes for each unique source and target.
             links.forEach(function(link) {
-                // if (link.target_type === '1') {
                 link.source = nodeByName(link.source);
                 link.target = nodeByName(link.target);
-                // }
             });
 
             // Extract the array of nodes from the map by name.
@@ -258,20 +255,6 @@ app.main = (function() {
             // tooltip
             $('.d3-tip').remove();
             var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
-                // Find name in inventory array
-                inventory.some(function(item) {
-                    // console.log(item);
-                    if (d.name === item['Name']) {
-                            var name = d.name,
-                            dep1 = item['Used By Department 1'],
-                            dep2 = item['Used By Department 2'],
-                            dep3 = item['Used By Department 3'],
-                            dep4 = item['Used By Department 4'],
-                            freq_updated = item['Frequency Updated'],
-                            freq_used = item['Frequency Used'];
-                    }
-                    console.log(name + '<br>' + freq_updated);
-                });
                 return d.name;
             });
 
@@ -416,7 +399,7 @@ app.main = (function() {
             var numNodes = 0;
             var allNodes = $('.graph-data.node');
             $.each(allNodes, function(i, v) {
-                // console.log($(v).css('display'));
+                console.log($(v).css('display'));
                 // if($(v).css('display'))
             });
         };
