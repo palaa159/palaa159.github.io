@@ -203,7 +203,7 @@ app.main = (function() {
             var allTargets = [];
             // Create nodes for each unique source and target.
             stat_edges_displayed = 0;
-            console.log(conditionArray);
+            // console.log(conditionArray);
             links.forEach(function(link) {
                 // repopulate keys for: ppp, linkage, department
                 // console.log(link.target);
@@ -222,17 +222,17 @@ app.main = (function() {
                 }
             });
             allTargets = _.unique(allTargets);
-            console.log(allTargets);
+            // console.log(allTargets);
             allTargets.forEach(function(item, i) {
                 if (i >= 0 && i < 3) {
                     key_ppp.push(item);
-                } else if (i >= 3 && i < 10) {
+                } else if (i >= 3 && i < 11) {
                     key_dep.push(item);
                 } else if (i >= 10) {
                     key_linkage.push(item);
                 }
             });
-            console.log(key_ppp);
+            // console.log(key_ppp);
 
             // Extract the array of nodes from the map by name.
             var nodes = d3.values(nodesByName);
@@ -419,6 +419,7 @@ app.main = (function() {
                     name: name.replace(/\u00a0/g, ' ')
                 });
             }
+            console.log(conditionArray);
             checkNetworkGraphInput();
             mouseOverListener();
         });
@@ -430,6 +431,7 @@ app.main = (function() {
         });
 
         var checkNetworkGraphInput = function() {
+            // render checkboxes
             conditionArray = [];
             $.each($('.networkGraphOptionInput:checked'), function(i, item) {
                 conditionArray.push($(item).val());
