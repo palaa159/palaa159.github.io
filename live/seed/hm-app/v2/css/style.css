@@ -221,7 +221,9 @@ svg {
 
 .link {
   /*stroke: #000;*/
-  stroke-width: 0.4px;
+  stroke-width: 0.75px !important;
+  transition: 0.15s;
+  -webkit-transition: 0.15s;
 }
 
 .node {
@@ -229,8 +231,8 @@ svg {
   stroke: #ebf7ff;
 }
 
-.i_link, .i_dep, .i_cat {
-  /*display: none;*/
+.thickStroke {
+  stroke-width: 5px;
 }
 
 .span-legend {
@@ -249,4 +251,27 @@ svg {
   padding: 10px;
   border: 1px solid rgba(0,0,0,0.1);
   box-shadow: 0px 0px 3px rgba(0,0,0,0.15);
+}
+
+.graphOptionText {
+  margin: 5px 0px;
+}
+
+.graphOptionText:first-child {
+  margin-top: 0px;
+}
+
+.graphStats {
+  margin: 0;
+}
+
+/* add dataset form */
+.add-dataset {
+  margin-top: 25px;
+}
+.add-dataset .full-width {
+  width: 100%;
+}
+.add-dataset .full-width-almost {
+  width: 95%;
 }

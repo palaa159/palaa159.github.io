@@ -17,9 +17,10 @@
 			<div class="container">
 				<div class="header-left">
 					<h4 class="title"><span class="strong hmcolor">Herman Miller</span><br>Data Universe</h4>
-					<li class="menu"><a href="#/search">Filter</a></li>
+					<li class="menu"><a href="#/inventory">Inventory</a></li>
 					<li class="menu"><a href="#/vis_all">Network Graph</a></li>
 					<li class="menu"><a href="#/data_mapping">Data Mapping</a></li>
+					<li class="menu"><a href="#/add_dataset">Add Dataset</a></li>
 				</div>
 				<div class="header-right">
 					<img height="50" src="img/hm_ss.jpg" alt="logo">
@@ -133,7 +134,7 @@
 						<td><a data-title="" data-lightbox="<%= item['Image Key'] %>" href="img/img_key/HM_<%= item['Image Key'] %>.png">View</a></td>
 						<% } %>
 						</tr>
-					<% }); %>
+						<% }); %>
 			</tbody>
 			</table>
 		<% } %>
@@ -142,24 +143,128 @@
 	<!-- D3 -->
 	<script type="text/template" id="tpl-network">
 		<div class="container">
-			<div class="three columns networkOptions">
-				<h6><strong>Graph Options</strong></h6>
+			<div class="four columns networkOptions">
+				<h6 class="graphOptionText"><strong>Graph Options</strong></h6>
 				<label for="ppp">
 					<input class="networkGraphOptionInput" type="checkbox" checked="checked" id="ppp" value="1">
 					<span><span class="span-legend" style="background: #baff12">&nbsp;&nbsp;&nbsp;&nbsp;</span> Category</span>
-				</label>
-				<label for="department">
-					<input class="networkGraphOptionInput" type="checkbox" checked="checked" id="department" value="2">
-					<span><span class="span-legend" style="background: #14a2fa">&nbsp;&nbsp;&nbsp;&nbsp;</span> Department</span>
 				</label>
 				<label for="linkage">
 					<input class="networkGraphOptionInput" type="checkbox" checked="checked" id="linkage" value="3">
 					<span><span class="span-legend" style="background: #feb612">&nbsp;&nbsp;&nbsp;&nbsp;</span> Link</span>
 				</label>
-				<h6><strong>Graph Stats</strong></h6>
+				<label for="department">
+					<input class="networkGraphOptionInput" type="checkbox" checked="checked" id="department" value="2">
+					<span><span class="span-legend" style="background: #14a2fa">&nbsp;&nbsp;&nbsp;&nbsp;</span> Department</span>
+				</label>
+				<h6 class="graphOptionText"><strong>Graph Stats</strong></h6>
 				<p class="graphStats"></p>
 			</div>
 		</div>
+	</script>
+
+	<!-- Add Dataset form page -->
+	<script type="text/template" id="tpl-add-dataset">
+		<div class="container add-dataset">
+			<div class="row">
+				<div class="twelve columns">
+					<h2>Add a Dataset</h2>
+				</div>
+			</div>
+			<form action="">
+				<div class="row no-margin">
+					<div class="eight columns">
+						<label for="dataset-name">Dataset Name</label>
+						<input class="full-width-almost" id="dataset-name" name="dataset-name" type="text"/>
+					</div>
+					<div class="four columns">
+						<label for="dataset-location">Location (system)</label>
+						<input id="dataset-location" name="dataset-location" type="text"/>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="twelve columns">
+						<label for="dataset-description">Description</label>
+						<!--<input id="dataset-description" type="text"/>-->
+						<textarea class="full-width" name="dataset-description" id="dataset-description" cols="30" rows="4"></textarea>
+					</div>
+				</div>
+
+				<div class="row no-margin">
+					<div class="four columns">
+						<label for="dataset-used-by">Used by</label>
+						<!--<input id="dataset-used-by" type="text"/>-->
+						<select id="dataset-used-by" name="dataset-used-by">
+							<option>Any</option>
+							<option>Design/Development</option>
+							<option>IT</option>
+							<option>Marketing</option>
+							<option>Performance Environments</option>
+							<option>Product Management</option>
+							<option>Research</option>
+							<option>Sales</option>
+						</select>
+					</div>
+					<div class="four columns">
+						<label for="dataset-linked-to">Linked to</label>
+						<!--<input id="dataset-linked-to" type="text"/>-->
+						<select id="dataset-linked-to" name="dataset-linked-to">
+							<option>Any</option>
+							<!-- <option>Time</option> -->
+							<option>Product</option>
+							<option>Product Family</option>
+							<option>Product Category</option>
+							<option>Customer</option>
+							<option>Customer Segment</option>
+							<option>Dealer</option>
+							<option>Employee</option>
+							<option>Region</option>
+						</select>
+					</div>
+					<div class="four columns">
+						<label for="dataset-frequency-updated">Frequency updated</label>
+						<!--<input id="dataset-frequency-updated" type="text"/>-->
+						<select id="dataset-frequency-updated" name="dataset-frequency-updated">
+							<option>Any</option>
+							<option>Real Time</option>
+							<option>Daily</option>
+							<option>Weekly</option>
+							<option>Monthly</option>
+							<option>Once</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="four columns">
+						<label for="dataset-relevant-to">Relevant to</label>
+						<!--<input id="dataset-relevant-to" type="text"/>-->
+						<select id="dataset-relevant-to" name="dataset-relevant-to">
+							<option>Any</option>
+							<option>People</option>
+							<option>Product</option>
+							<option>Place</option>
+						</select>
+					</div>
+					<div class="four columns">
+						<label for="dataset-frequency-used">Frequency used</label>
+						<input id="dataset-frequency-used" name="dataset-frequency-used" type="text"/>
+					</div>
+					<div class="four columns">
+						<label for="dataset-image-key">Image key</label>
+						<input id="dataset-image-key" name="dataset-image-key" type="text"/>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="four columns">
+						<button type="submit" class="dataset-form-submit">Submit Dataset</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
 	</script>
 
 	<!-- Load scripts -->

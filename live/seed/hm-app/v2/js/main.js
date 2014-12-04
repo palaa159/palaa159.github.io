@@ -1,5 +1,5 @@
 /* Your code starts here */
-
+// TODO: cleanup csv for string comparison: Link problem still persists
 var app = app || {};
 
 app.main = (function() {
@@ -7,36 +7,39 @@ app.main = (function() {
     var force;
     var inventory = [],
         filter_1, filter_2, filter_3, filter_4, output = [],
-        key_ppp = ['Category – People',
-            'Category – Product',
-            'Category – Place'
+        key_ppp = ['Category - People',
+            'Category - Product',
+            'Category - Place'
         ],
-        key_linkage = ['Link – Product',
-            'Link – Product Family',
-            'Link – Product Category',
-            'Link – Customer',
-            'Link – Customer Segment',
-            'Link – Dealer',
-            'Link – Employee',
-            'Link – Region',
-            'Link – Category',
-            'Link – MSA',
-            'Link – Time',
-            'Link – Product Line',
-            'Link – Product Type',
-            'Link – Sales Representative'
+        key_linkage = ['Link - Product',
+            'Link - Product Family',
+            'Link - Product Category',
+            'Link - Customer',
+            'Link - Customer Segment',
+            'Link - Dealer',
+            'Link - Employee',
+            'Link - Region',
+            'Link - Category',
+            'Link - MSA',
+            'Link - Time',
+            'Link – Product Line',
+            'Link - Product Type',
+            'Link - Sales Representative'
         ],
-        key_dep = ['Department – Design/Development',
-            'Department – IT',
-            'Department – Sales',
-            'Department – Marketing',
-            'Department – Performance Environments',
-            'Department – Product Management',
-            'Department – Research'
+        key_dep = ['Department - Design/Development',
+            'Department - IT',
+            'Department - Sales',
+            'Department - Marketing',
+            'Department - Performance Environments',
+            'Department - Product Management',
+            'Department - Research'
         ];
     var conditionArray = ['1', '2', '3'];
     // stats
-    var stat = 0;
+    var stat_edges_displayed = 0,
+        stat_all_edges = 0;
+    var stat_nodes_displayed = 0,
+        stat_all_nodes = 0;
     var cCat = '#baff12',
         cLink = '#feb612',
         cDep = '#14a2fa';
@@ -56,7 +59,7 @@ app.main = (function() {
         // initialize initial selectors value
         hashListener();
         window.location.hash = '';
-        window.location.hash = '/search';
+        window.location.hash = '/inventory';
         attachEvents();
     };
 
@@ -80,7 +83,7 @@ app.main = (function() {
             force.stop();
         }
         $('.d3-tip').remove();
-        if (page === '#/search') {
+        if (page === '#/inventory') {
             filter_1 = 'Any';
             filter_2 = 'Any';
             filter_3 = 'Any';
@@ -94,6 +97,8 @@ app.main = (function() {
             compiled = _.template(template);
             $('#view').html(compiled);
             renderNetworkD3('networkgraph.csv', conditionArray);
+        } else if (page === '#/add_dataset') {
+            renderAddDataset();
         }
     };
 
@@ -221,7 +226,7 @@ app.main = (function() {
             var nodesByName = {};
 
             // Create nodes for each unique source and target.
-            stats = 0;
+            stat_edges_displayed = 0;
             console.log(conditionArray);
             links.forEach(function(link) {
                 conditionArray.forEach(function(query) {
@@ -230,15 +235,21 @@ app.main = (function() {
                         link.source = nodeByName(link.source);
                         link.target = nodeByName(link.target);
                         // add to
-                        stats += 1;
+                        stat_edges_displayed += 1;
                     }
                 });
+                if (conditionArray.length === 3) {
+                    stat_all_edges = stat_edges_displayed;
+                }
             });
 
             // Extract the array of nodes from the map by name.
             var nodes = d3.values(nodesByName);
+            if (conditionArray.length === 3) {
+                stat_all_nodes = nodes.length;
+            }
             // print stats
-            $('.graphStats').html(nodes.length + ' Nodes Displayed' + '<br>' + stats + ' Edges Displayed');
+            $('.graphStats').html(nodes.length + ' of ' + stat_all_nodes + ' Nodes Displayed' + '<br>' + stat_edges_displayed + ' of ' + stat_all_edges + ' Edges Displayed');
 
             // Create the link lines.
             var link = svg.selectAll(".link")
@@ -257,17 +268,17 @@ app.main = (function() {
                         // if ppp
                         if (d.target_type === '1') {
                             d3.select(this).attr({
-                                class: 'graph-data link i_cat'
+                                class: 'graph-data link'
                             });
                             return cCat;
                         } else if (d.target_type === '2') {
                             d3.select(this).attr({
-                                class: 'graph-data link i_dep'
+                                class: 'graph-data link'
                             });
                             return cDep;
                         } else if (d.target_type === '3') {
                             d3.select(this).attr({
-                                class: 'graph-data link i_link'
+                                class: 'graph-data link'
                             });
                             return cLink;
                         } else {
@@ -279,7 +290,9 @@ app.main = (function() {
             // tooltip
             $('.d3-tip').remove();
             var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
-                // console.log(d);
+                // var thatEdge = $('.link[data-source="' + d.name + '"]');
+                // console.log(thatEdge);
+                // d3.select(thatEdge[0]).classed('thickStroke');
                 return d.data_tooltip;
             });
 
@@ -313,7 +326,7 @@ app.main = (function() {
                 .enter().append("circle")
                 .attr({
                     'data-name': function(d) {
-                        return d.name.replace(/\u00a0/g, ' ');
+                        return d.name;
                     },
                     r: function(d) {
                         d.data_tooltip = createToolTipText(d.name);
@@ -323,24 +336,24 @@ app.main = (function() {
                             d3.select(this).attr({
                                 class: 'graph-data node'
                             });
-                            return 10;
+                            return 12;
                             // if linkage
                         } else if (_.contains(key_linkage, d.name)) {
                             d3.select(this).attr({
                                 class: 'graph-data node'
                             });
-                            return 10;
+                            return 12;
                             // if dep
                         } else if (_.contains(key_dep, d.name)) {
                             d3.select(this).attr({
                                 class: 'graph-data node'
                             });
-                            return 10;
+                            return 12;
                         } else {
                             d3.select(this).attr({
-                                class: 'graph-data node i_genpop'
+                                class: 'graph-data node'
                             });
-                            return 3;
+                            return 4;
                         }
                     },
                     fill: function(d) {
@@ -356,7 +369,7 @@ app.main = (function() {
                         } else if (_.contains(key_linkage, d.name)) {
                             return cLink;
                         } else {
-                            return '#c4c4c4';
+                            return '#fff';
                         }
                     }
                 })
@@ -395,10 +408,10 @@ app.main = (function() {
                     });
 
                 node.attr("cx", function(d) {
-                    return d.x;
+                    return Math.max(0, Math.min(width, d.x));
                 })
                     .attr("cy", function(d) {
-                        return d.y;
+                        return Math.max(100, Math.min(height - 50, d.y));
                     });
                 text.attr({
                     dx: function(d) {
@@ -416,6 +429,7 @@ app.main = (function() {
                 });
             }
             checkNetworkGraphInput();
+            mouseOverListener();
         });
         // listener for network graph options
         $('.networkGraphOptionInput').off('change').on('change', function() {
@@ -431,6 +445,31 @@ app.main = (function() {
             });
         };
 
+        var mouseOverListener = function() {
+            $('.node').off('mouseover').on('mouseover', function() {
+                // console.log($(this).attr('data-name'));
+                d3.selectAll('.link[data-source="' + $(this).attr('data-name') + '"]').attr({
+                    class: 'thickStroke'
+                });
+
+            }).off('mouseout').on('mouseout', function() {
+                $('.thickStroke').attr({
+                    class: 'link'
+                });
+            });
+
+            d3.selectAll('.link')
+                .on('mouseover', function() {
+                    d3.select(this).attr({
+                        class: 'thickStroke'
+                    });
+                }).on('mouseout', function() {
+                    d3.select(this).attr({
+                        class: 'link'
+                    });
+                });
+        };
+
         // resize listener
         var lazyLayout = _.debounce(rebuildSVG, 150);
         $(window).off('resize').on('resize', lazyLayout);
@@ -444,13 +483,6 @@ app.main = (function() {
         var i = customIndexOf(inventory, name);
         // console.log(i);
         if (inventory[i]) {
-            // console.log(inventory[i]['Name']);
-            // console.log(inventory[i]['Used By Department 1']);
-            // console.log(inventory[i]['Used By Department 2']);
-            // console.log(inventory[i]['Used By Department 3']);
-            // console.log(inventory[i]['Used By Department 4']);
-            // console.log(inventory[i]['Frequency Updated']);
-            // console.log(inventory[i]['Frequency Used']);
             return '<span style="font-size: 1.25em; line-height: 1.25em; margin-bottom: 9px">' + inventory[i]['Name'] + '</span>' +
                 '<br><span style="line-height: 1.35em;">Owned by: ' + (inventory[i]['Used By Department 1'] !== '' ? inventory[i]['Used By Department 1'] : '') +
                 (inventory[i]['Used By Department 2'] !== '' ? ', ' + inventory[i]['Used By Department 2'] : '') +
@@ -466,6 +498,36 @@ app.main = (function() {
 
     };
 
+    // Add Dataset form
+
+    var renderAddDataset = function() {
+        var template = $('#tpl-add-dataset').html(),
+            compiled = _.template(template),
+            $view = $('#view');
+        $view.html(compiled);
+
+        var $form = $view.find('form');
+        $form.on('submit', function(e) {
+            e.preventDefault();
+            e.returnValue = false;
+
+            // todo: validate fields before posting
+            var postData = $form.serialize();
+            $.ajax({
+                type: 'POST',
+                url: '/updateInventory', // todo replace with real URL
+                data: postData
+            }).done(function() {
+                // todo: show better success message
+                alert('Success!');
+                window.location.reload();
+            }).fail(function() {
+                // todo: show better error
+                alert('Sorry, an error occurred.');
+            });
+        });
+    };
+
     return {
         init: init,
         load: load
@@ -479,7 +541,7 @@ function customIndexOf(array, id) {
     var result = -1;
 
     _.some(array, function(element, index) {
-        if (id.toLowerCase().replace(/\s+/g, '') === element.Name.toLowerCase().replace(/\s+/g, '')) {
+        if (id.toLowerCase().replace(/\u00a0/g, ' ') === element.Name.toLowerCase().replace(/\u00a0/g, ' ')) {
             result = index;
             // result[1] = element;
             return true;
