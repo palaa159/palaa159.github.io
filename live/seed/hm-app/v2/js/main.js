@@ -7,33 +7,9 @@ app.main = (function() {
     var force;
     var inventory = [],
         filter_1, filter_2, filter_3, filter_4, output = [],
-        key_ppp = ['Category - People',
-            'Category - Product',
-            'Category - Place'
-        ],
-        key_linkage = ['Link - Product',
-            'Link - Product Family',
-            'Link - Product Category',
-            'Link - Customer',
-            'Link - Customer Segment',
-            'Link - Dealer',
-            'Link - Employee',
-            'Link - Region',
-            'Link - Category',
-            'Link - MSA',
-            'Link - Time',
-            'Link – Product Line',
-            'Link - Product Type',
-            'Link - Sales Representative'
-        ],
-        key_dep = ['Department - Design/Development',
-            'Department - IT',
-            'Department - Sales',
-            'Department - Marketing',
-            'Department - Performance Environments',
-            'Department - Product Management',
-            'Department - Research'
-        ];
+        key_ppp = [],
+        key_linkage = [],
+        key_dep = [];
     var conditionArray = ['1', '2', '3'];
     // stats
     var stat_edges_displayed = 0,
@@ -224,11 +200,14 @@ app.main = (function() {
 
         d3.csv('data/vis/' + csv, function(links) {
             var nodesByName = {};
-
+            var allTargets = [];
             // Create nodes for each unique source and target.
             stat_edges_displayed = 0;
             console.log(conditionArray);
             links.forEach(function(link) {
+                // repopulate keys for: ppp, linkage, department
+                // console.log(link.target);
+                allTargets.push(link.target);
                 conditionArray.forEach(function(query) {
                     // 1, 2, 3
                     if (link.target_type === query) {
@@ -242,6 +221,18 @@ app.main = (function() {
                     stat_all_edges = stat_edges_displayed;
                 }
             });
+            allTargets = _.unique(allTargets);
+            console.log(allTargets);
+            allTargets.forEach(function(item, i) {
+                if (i >= 0 && i < 3) {
+                    key_ppp.push(item);
+                } else if (i >= 3 && i < 10) {
+                    key_dep.push(item);
+                } else if (i >= 10) {
+                    key_linkage.push(item);
+                }
+            });
+            console.log(key_ppp);
 
             // Extract the array of nodes from the map by name.
             var nodes = d3.values(nodesByName);
