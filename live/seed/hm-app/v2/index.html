@@ -133,28 +133,28 @@
 						<td><a data-title="" data-lightbox="<%= item['Image Key'] %>" href="img/img_key/HM_<%= item['Image Key'] %>.png">View</a></td>
 						<% } %>
 						</tr>
-						<% }); %>
+					<% }); %>
 			</tbody>
 			</table>
 		<% } %>
 	</script>
 
 	<!-- D3 -->
-	<script type="text/template" id="tpl-d3">
+	<script type="text/template" id="tpl-network">
 		<div class="container">
 			<div class="three columns networkOptions">
 				<h6><strong>Graph Options</strong></h6>
 				<label for="ppp">
-					<input class="networkGraphOptionInput" type="checkbox" checked="checked" id="ppp" value="i_cat">
+					<input class="networkGraphOptionInput" type="checkbox" checked="checked" id="ppp" value="1">
 					<span><span class="span-legend" style="background: #baff12">&nbsp;&nbsp;&nbsp;&nbsp;</span> Category</span>
 				</label>
-				<label for="linkage">
-					<input class="networkGraphOptionInput" type="checkbox" checked="checked" id="linkage" value="i_link">
-					<span><span class="span-legend" style="background: #feb612">&nbsp;&nbsp;&nbsp;&nbsp;</span> Link</span>
-				</label>
 				<label for="department">
-					<input class="networkGraphOptionInput" type="checkbox" checked="checked" id="department" value="i_dep">
+					<input class="networkGraphOptionInput" type="checkbox" checked="checked" id="department" value="2">
 					<span><span class="span-legend" style="background: #14a2fa">&nbsp;&nbsp;&nbsp;&nbsp;</span> Department</span>
+				</label>
+				<label for="linkage">
+					<input class="networkGraphOptionInput" type="checkbox" checked="checked" id="linkage" value="3">
+					<span><span class="span-legend" style="background: #feb612">&nbsp;&nbsp;&nbsp;&nbsp;</span> Link</span>
 				</label>
 				<h6><strong>Graph Stats</strong></h6>
 				<p class="graphStats"></p>

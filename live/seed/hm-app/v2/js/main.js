@@ -34,6 +34,9 @@ app.main = (function() {
             'Department – Product Management',
             'Department – Research'
         ];
+    var conditionArray = ['1', '2', '3'];
+    // stats
+    var stat = 0;
     var cCat = '#baff12',
         cLink = '#feb612',
         cDep = '#14a2fa';
@@ -70,6 +73,7 @@ app.main = (function() {
     };
 
     var renderPage = function(page) { // --> #/blah
+        var template, compiled;
         $('#view').html('');
         $('svg').remove();
         if (force) {
@@ -81,12 +85,15 @@ app.main = (function() {
             filter_2 = 'Any';
             filter_3 = 'Any';
             filter_4 = 'Any';
-            var template = $('#tpl-filter').html();
-            var compiled = _.template(template);
+            template = $('#tpl-filter').html();
+            compiled = _.template(template);
             $('#view').html(compiled);
             renderSearch();
         } else if (page === '#/vis_all') {
-            renderNetwork('networkgraph.csv');
+            template = $('#tpl-network').html();
+            compiled = _.template(template);
+            $('#view').html(compiled);
+            renderNetworkD3('networkgraph.csv', conditionArray);
         }
     };
 
@@ -194,13 +201,11 @@ app.main = (function() {
     };
 
     // D3
-    var renderNetwork = function(csv) {
+    var renderNetworkD3 = function(csv, condition) {
+        $('svg').remove();
         var width = window.innerWidth,
             height = window.innerHeight;
 
-        var template = $('#tpl-d3').html(),
-            compiled = _.template(template);
-        $('#view').html(compiled);
         var svg = d3.select('#view').append("svg")
             .attr("width", width)
             .attr("height", height);
@@ -216,15 +221,24 @@ app.main = (function() {
             var nodesByName = {};
 
             // Create nodes for each unique source and target.
+            stats = 0;
+            console.log(conditionArray);
             links.forEach(function(link) {
-                // if (link.target_type === '1') {
-                link.source = nodeByName(link.source);
-                link.target = nodeByName(link.target);
-                // }
+                conditionArray.forEach(function(query) {
+                    // 1, 2, 3
+                    if (link.target_type === query) {
+                        link.source = nodeByName(link.source);
+                        link.target = nodeByName(link.target);
+                        // add to
+                        stats += 1;
+                    }
+                });
             });
 
             // Extract the array of nodes from the map by name.
             var nodes = d3.values(nodesByName);
+            // print stats
+            $('.graphStats').html(nodes.length + ' Nodes Displayed' + '<br>' + stats + ' Edges Displayed');
 
             // Create the link lines.
             var link = svg.selectAll(".link")
@@ -232,6 +246,13 @@ app.main = (function() {
                 .enter()
                 .append("line")
                 .attr({
+                    'data-source': function(d) {
+                        // console.log(d);
+                        return d.source.name;
+                    },
+                    'data-target': function(d) {
+                        return d.target.name;
+                    },
                     stroke: function(d) {
                         // if ppp
                         if (d.target_type === '1') {
@@ -258,21 +279,8 @@ app.main = (function() {
             // tooltip
             $('.d3-tip').remove();
             var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
-                // Find name in inventory array
-                inventory.some(function(item) {
-                    // console.log(item);
-                    if (d.name === item['Name']) {
-                            var name = d.name,
-                            dep1 = item['Used By Department 1'],
-                            dep2 = item['Used By Department 2'],
-                            dep3 = item['Used By Department 3'],
-                            dep4 = item['Used By Department 4'],
-                            freq_updated = item['Frequency Updated'],
-                            freq_used = item['Frequency Used'];
-                    }
-                    console.log(name + '<br>' + freq_updated);
-                });
-                return d.name;
+                // console.log(d);
+                return d.data_tooltip;
             });
 
             // create text
@@ -283,17 +291,17 @@ app.main = (function() {
                     // console.log(d);
                     if (_.contains(key_linkage, d.name)) {
                         d3.select(this).attr({
-                            class: 'graph-data text i_link'
+                            class: 'graph-data text'
                         });
                         return d.name;
                     } else if (_.contains(key_ppp, d.name)) {
                         d3.select(this).attr({
-                            class: 'graph-data text i_cat'
+                            class: 'graph-data text'
                         });
                         return d.name;
                     } else if (_.contains(key_dep, d.name)) {
                         d3.select(this).attr({
-                            class: 'graph-data text i_dep'
+                            class: 'graph-data text'
                         });
                         return d.name;
                     }
@@ -304,24 +312,28 @@ app.main = (function() {
                 .data(nodes)
                 .enter().append("circle")
                 .attr({
+                    'data-name': function(d) {
+                        return d.name.replace(/\u00a0/g, ' ');
+                    },
                     r: function(d) {
+                        d.data_tooltip = createToolTipText(d.name);
                         // if ppp
                         if (_.contains(key_ppp, d.name)) {
                             // console.log('ppp');
                             d3.select(this).attr({
-                                class: 'graph-data node i_cat'
+                                class: 'graph-data node'
                             });
                             return 10;
                             // if linkage
                         } else if (_.contains(key_linkage, d.name)) {
                             d3.select(this).attr({
-                                class: 'graph-data node i_link'
+                                class: 'graph-data node'
                             });
                             return 10;
                             // if dep
                         } else if (_.contains(key_dep, d.name)) {
                             d3.select(this).attr({
-                                class: 'graph-data node i_dep'
+                                class: 'graph-data node'
                             });
                             return 10;
                         } else {
@@ -359,7 +371,14 @@ app.main = (function() {
                 .links(links)
             // .off('tick', null)
             .on("tick", tick)
-                .start();
+                .friction(0.6)
+            // .theta(0.00008)
+            // .alpha(0.1)
+            .start();
+
+            // setTimeout(function() {
+            //     force.stop();
+            // }, 5000);
 
             function tick() {
                 link.attr("x1", function(d) {
@@ -392,32 +411,23 @@ app.main = (function() {
             }
 
             function nodeByName(name) {
-                return nodesByName[name] || (nodesByName[name] = {
-                    name: name
+                return nodesByName[name.replace(/\u00a0/g, ' ')] || (nodesByName[name.replace(/\u00a0/g, ' ')] = {
+                    name: name.replace(/\u00a0/g, ' ')
                 });
             }
             checkNetworkGraphInput();
         });
         // listener for network graph options
-        $('.networkGraphOptionInput').on('change', function() {
+        $('.networkGraphOptionInput').off('change').on('change', function() {
             // check if checked
-            $('.i_dep').hide();
-            $('.i_cat').hide();
-            $('.i_link').hide();
             checkNetworkGraphInput();
+            renderNetworkD3('networkgraph.csv', conditionArray);
         });
 
         var checkNetworkGraphInput = function() {
+            conditionArray = [];
             $.each($('.networkGraphOptionInput:checked'), function(i, item) {
-                $('.' + ($(item).val())).show();
-            });
-            // print graph stats
-            var text;
-            var numNodes = 0;
-            var allNodes = $('.graph-data.node');
-            $.each(allNodes, function(i, v) {
-                // console.log($(v).css('display'));
-                // if($(v).css('display'))
+                conditionArray.push($(item).val());
             });
         };
 
@@ -427,7 +437,33 @@ app.main = (function() {
     };
 
     var rebuildSVG = function() {
-        renderNetwork('networkgraph.csv');
+        renderNetworkD3('networkgraph.csv', conditionArray);
+    };
+
+    var createToolTipText = function(name) {
+        var i = customIndexOf(inventory, name);
+        // console.log(i);
+        if (inventory[i]) {
+            // console.log(inventory[i]['Name']);
+            // console.log(inventory[i]['Used By Department 1']);
+            // console.log(inventory[i]['Used By Department 2']);
+            // console.log(inventory[i]['Used By Department 3']);
+            // console.log(inventory[i]['Used By Department 4']);
+            // console.log(inventory[i]['Frequency Updated']);
+            // console.log(inventory[i]['Frequency Used']);
+            return '<span style="font-size: 1.25em; line-height: 1.25em; margin-bottom: 9px">' + inventory[i]['Name'] + '</span>' +
+                '<br><span style="line-height: 1.35em;">Owned by: ' + (inventory[i]['Used By Department 1'] !== '' ? inventory[i]['Used By Department 1'] : '') +
+                (inventory[i]['Used By Department 2'] !== '' ? ', ' + inventory[i]['Used By Department 2'] : '') +
+                (inventory[i]['Used By Department 3'] !== '' ? ', ' + inventory[i]['Used By Department 3'] : '') +
+                (inventory[i]['Used By Department 4'] !== '' ? ', ' + inventory[i]['Used By Department 4'] : '') +
+                '<br>Frequency Updated: ' +
+                inventory[i]['Frequency Updated'] +
+                '<br>Frequency Used: ' +
+                inventory[i]['Frequency Used'] + '</span>';
+        } else {
+            return name;
+        }
+
     };
 
     return {
@@ -437,3 +473,19 @@ app.main = (function() {
 })();
 
 app.main.load();
+
+// helpers
+function customIndexOf(array, id) {
+    var result = -1;
+
+    _.some(array, function(element, index) {
+        if (id.toLowerCase().replace(/\s+/g, '') === element.Name.toLowerCase().replace(/\s+/g, '')) {
+            result = index;
+            // result[1] = element;
+            return true;
+        }
+        return false;
+    });
+
+    return result;
+}
