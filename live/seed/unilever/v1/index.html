@@ -1,4 +1,112 @@
-<!doctype html> <html class="no-js"> <head> <meta charset="utf-8"> <title></title> <meta name="description" content=""> <meta name="viewport" content="width=device-width"> <!-- <meta name="viewport" content="width=device-width"> --> <!-- Place favicon.ico and apple-touch-icon.png in the root directory --> <link rel="stylesheet" href="styles/vendor.63ae8fe8.css"> <link rel="stylesheet" href="styles/main.99aba3a6.css">  <body ng-app="v1App" ng-class="(isMenu)?'bg-menu':'bg-other'"> <!--[if lt IE 7]>
+<!doctype html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <!-- <meta name="viewport" content="width=device-width"> -->
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <!-- build:css(.) styles/vendor.css -->
+        <!-- bower:css -->
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.css" />
+        <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.css" />
+        <link rel="stylesheet" href="bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.css" />
+        <link rel="stylesheet" href="bower_components/pnotify/pnotify.core.css" />
+        <link rel="stylesheet" href="bower_components/pnotify/pnotify.buttons.css" />
+        <link rel="stylesheet" href="bower_components/pnotify/pnotify.history.css" />
+        <link rel="stylesheet" href="bower_components/angular-bootstrap-calendar/dist/css/angular-bootstrap-calendar.min.css" />
+        <!-- endbower -->
+        <!-- endbuild -->
+        <!-- build:css(.tmp) styles/main.css -->
+        <link rel="stylesheet" href="styles/main.css">
+        <!-- endbuild -->
+    </head>
+    <body ng-app="v1App" ng-class="(isMenu)?'bg-menu':'bg-other'">
+        <!--[if lt IE 7]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]--> <!-- Add your site or application content here --> <div class="header"> <div class="navbar navbar-default transparent no-border" ng-class="{'border-bottom': !isMenu}" role="navigation"> <div class="container-fluid"> <div class="navbar-header"> <a class="navbar-brand" href="#/menu"> <img alt="Brand" src="images/unilever.e07a35e1.png" height="100%"> </a> <div class="navbar-right" style="position: absolute;
-                            right: 15px"> <div class="navbar-text text-white text-light navbar-project"> <span ng-class="{hidden: !shouldShowMyProject}">My Project</span> <a ng-href="#/menu"> <img src="images/action-button/home.aa816d21.png" height="42" ng-class="{'hidden': isMenu}"> </a> </div> </div> </div> </div> </div> </div> <!-- <div class="container"> --> <div ng-view=""></div> <!-- </div> --> <div class="footer"> <div class="container-fluid" style="text-align: left"> <div class="navbar-text navbar-left"> <p style="font-size: 10px; text-align: center"><img src="images/seed_logo.c44efc1e.png" height="60">&nbsp;© 2015 Seed</p> </div> <div class="navbar-text navbar-right"> <button type="button" class="btn btn-xl"> <img src="images/landing_settings.9b8931ca.png" height="48" ng-class="{'hidden': !isMenu}"> <!-- <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> --> </button> </div> </div> </div> <script src="scripts/vendor.1aebfa56.js"></script> <script src="scripts/scripts.6bb76eca.js"></script>  
+        <![endif]-->
+        <!-- Add your site or application content here -->
+        <div class="header">
+            <div class="navbar navbar-default transparent no-border" ng-class="{'border-bottom': !isMenu}" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#/menu">
+                            <img alt="Brand" src="images/unilever.png" height="100%">
+                        </a>
+                        <div class="navbar-right" style="position: absolute;
+                            right: 15px;">
+                            <div class="navbar-text text-white text-light navbar-project">
+
+                                <span ng-class="{hidden: !shouldShowMyProject}">My Project</span>
+
+                                <a ng-href="#/menu">
+                                    <img src="images/action-button/home.png" height="42" ng-class="{'hidden': isMenu}">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="container"> -->
+        <div ng-view=""></div>
+        <!-- </div> -->
+        <div class="footer">
+            <div class="container-fluid" style="text-align: left;">
+                <div class="navbar-text navbar-left">
+                    <p style="font-size: 10px; text-align: center;"><img src="images/seed_logo.png" height="60">&nbsp;© 2015 Seed</p>
+                </div>
+                
+                <div class="navbar-text navbar-right">
+                    <button type="button" class="btn btn-xl">
+                    <img src="images/landing_settings.png" height="48" ng-class="{'hidden': !isMenu}">
+                    <!-- <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> -->
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- build:js(.) scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="bower_components/modernizr/modernizr.js"></script>
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="bower_components/angular-animate/angular-animate.js"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+        <script src="bower_components/angular-resource/angular-resource.js"></script>
+        <script src="bower_components/angular-route/angular-route.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="bower_components/angular-touch/angular-touch.js"></script>
+        <script src="bower_components/moment/moment.js"></script>
+        <script src="bower_components/angular-moment/angular-moment.js"></script>
+        <script src="bower_components/angular-dragdrop/src/angular-dragdrop.js"></script>
+        <script src="bower_components/ngDialog/js/ngDialog.js"></script>
+        <script src="bower_components/seiyria-bootstrap-slider/js/bootstrap-slider.js"></script>
+        <script src="bower_components/angular-bootstrap-slider/slider.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script src="bower_components/pnotify/pnotify.core.js"></script>
+        <script src="bower_components/pnotify/pnotify.buttons.js"></script>
+        <script src="bower_components/pnotify/pnotify.callbacks.js"></script>
+        <script src="bower_components/pnotify/pnotify.confirm.js"></script>
+        <script src="bower_components/pnotify/pnotify.desktop.js"></script>
+        <script src="bower_components/pnotify/pnotify.history.js"></script>
+        <script src="bower_components/pnotify/pnotify.nonblock.js"></script>
+        <script src="bower_components/angular-bootstrap-calendar/dist/js/angular-bootstrap-calendar-tpls.min.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/menu.js"></script>
+        <script src="scripts/controllers/teams.js"></script>
+        <script src="scripts/controllers/communication.js"></script>
+        <script src="scripts/controllers/applications.js"></script>
+        <script src="scripts/controllers/projects.js"></script>
+        <script src="scripts/controllers/advisors.js"></script>
+        <script src="scripts/lib/coolclock.js"></script>
+        <script src="scripts/lib/moreskins.js"></script>
+        <!-- endbuild -->
+    </body>
+</html>
