@@ -99,7 +99,7 @@ var init = function() {
             .attrTween("transform", translateAlong(c.planeArray[num].node().getBBox(), myPath.node()));
     };
 
-    c.init();
+    // c.init();
 };
 
 var updateScreen = function() {
